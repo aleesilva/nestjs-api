@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  app:
+    build: ./docker
+    container_name: api
+    depends_on:
+      - db
+    entrypoint: ./docker/entrypoint.sh
+    ports:
+      - '${APP_PORT:-9001}:9001'
+    volumes:
+      - .:/home/node/app
+
+  db:
+    image: postgres
+    container_name: pg-db-api
+    restart: always
+    user: postgres
+    ports: 
+      - '${DB_PORT:-5432}:5432'
+    volumes: 
+      - api-db:/var/lib/postgres
+    environment: 
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-root}'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USER}'
+      TZ: GMT
+
+volumes: 
+  api-db:
