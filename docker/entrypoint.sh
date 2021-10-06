@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-cd /home/api
+cd /home/node/app
 yarn
 echo 'install depencies'
 yarn start:dev
